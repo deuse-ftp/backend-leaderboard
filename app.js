@@ -1,9 +1,18 @@
 const express = require('express');
-const cors = require('cors'); // Novo: pra fix CORS
-
 const app = express();
 app.use(express.json());
-app.use(cors()); // Novo: Libera CORS pra todas origens
+
+// Fix CORS: Permite origens de qualquer lugar (inclui localhost e itch)
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 
 let leaderboard = []; // Array simples, persiste só enquanto roda (use BD pra real)
 
@@ -23,4 +32,5 @@ app.get('/leaderboard', (req, res) => {
   res.json(leaderboard);
 });
 
-app.listen(3000, () => console.log('Backend rodando em http://localhost:3000'));
+// Exporta pro Vercel serverless
+module.exports = app;
