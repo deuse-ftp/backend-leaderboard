@@ -1,18 +1,12 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 app.use(express.json());
-
-// Fix CORS: Permite origens de qualquer lugar (inclui localhost e itch)
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  if (req.method === 'OPTIONS') {
-    res.sendStatus(200);
-  } else {
-    next();
-  }
-});
+app.use(cors({
+  origin: '*',
+  methods: 'GET, POST, OPTIONS',
+  allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept'
+}));
 
 let leaderboard = []; // Array simples, persiste só enquanto roda (use BD pra real)
 
