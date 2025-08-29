@@ -1,8 +1,9 @@
 {
   "version": 2,
-  "functions": {
-    "api/**/*.js": {
-      "handler": "app.js"
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api/index.js"
     }
-  }
+  ]
 }

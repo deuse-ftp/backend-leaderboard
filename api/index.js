@@ -32,5 +32,4 @@ app.get('/leaderboard', (req, res) => {
   res.json(leaderboard);
 });
 
-// Exporta pro Vercel serverless
 module.exports = app;
